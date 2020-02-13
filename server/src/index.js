@@ -10,7 +10,7 @@ const middlewares = require('./middlewares');
 const logs = require('./api/logs');
 
 const app = express();
-
+app.use(cors());
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
@@ -30,11 +30,6 @@ connectDB();
 
 app.use(morgan('common'));
 app.use(helmet());
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN
-  })
-);
 
 app.use(express.json());
 
@@ -51,5 +46,5 @@ app.use(middlewares.errorHandler);
 
 const port = process.env.PORT || 1337;
 app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
+  console.log(`Server listening on Port: ${port}`);
 });

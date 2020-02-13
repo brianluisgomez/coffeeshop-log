@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "name": "coffeeshop-log-db",
+  "builds": [
+    {
+      "src": "src/index.js",
+      "use": "@now/node-server"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/.*",
+      "dest": "src/index.js"
+    }
+  ],
+  "alias": ["coffeeshop-log-db"],
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "1337",
+    "MONGO_URI": "@coffee-log-db"
+  }
+}
