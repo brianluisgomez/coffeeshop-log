@@ -28,9 +28,6 @@ const logEntrySchema = new Schema(
       min: -180,
       max: 180,
       required: true
-    },
-    visitDate: {
-      type: Date
     }
   },
   { timestamps: true }
