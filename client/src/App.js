@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-import { listLogEntries } from './API';
-import LogEntryForm from './LogEntryForm';
+import listLogEntries from './API.js';
+import LogEntryForm from './LogEntryForm.js';
 
 import Geocoder from 'react-map-gl-geocoder';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 const App = () => {
-  const [logEntries, setLogEntries] = useState([]);
+  const REACT_APP_MAPBOX_TOKEN =
+    'pk.eyJ1IjoiYmdvbWUwNCIsImEiOiJjazZpYzB1MmEzMzhoM25wanl6azlwN2RuIn0.wDChpRxYI-sSa3dzM-CI1A';
+
   const myMap = useRef();
+  const [logEntries, setLogEntries] = useState([]);
   const [showPopup, setShowPopup] = useState({});
   const [addEntryLocation, setAddEntryLocation] = useState(null);
   const [viewport, setViewport] = useState({
@@ -19,13 +22,13 @@ const App = () => {
     zoom: 10
   });
 
-  const getEntries = async () => {
+  const updateEntries = async () => {
     const logEntries = await listLogEntries();
     setLogEntries(logEntries);
   };
 
   useEffect(() => {
-    getEntries();
+    updateEntries();
   }, []);
 
   const showAddMarkerPopup = event => {
@@ -42,12 +45,13 @@ const App = () => {
       ref={myMap}
       {...viewport}
       mapStyle='mapbox://styles/bgome04/ck6jng8h50prq1iploxph8aok'
-      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+      mapboxApiAccessToken={REACT_APP_MAPBOX_TOKEN}
       onViewportChange={setViewport}
     >
       {logEntries.map(entry => (
-        <React.fragment key={entry._id}>
+        <>
           <Marker
+            key={entry._id}
             latitude={entry.latitude}
             longitude={entry.longitude}
             offsetLeft={-12}
@@ -56,7 +60,6 @@ const App = () => {
             <div
               onClick={() =>
                 setShowPopup({
-                  // ...showPopup,
                   [entry._id]: true
                 })
               }
@@ -97,11 +100,11 @@ const App = () => {
               </div>
             </Popup>
           ) : null}
-        </React.fragment>
+        </>
       ))}
       <Geocoder
         mapRef={myMap}
-        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        mapboxApiAccessToken={REACT_APP_MAPBOX_TOKEN}
         position='top-left'
         onViewportChange={setViewport}
         onResult={showAddMarkerPopup}
@@ -148,7 +151,7 @@ const App = () => {
               <LogEntryForm
                 onClose={() => {
                   setAddEntryLocation(null);
-                  getEntries();
+                  updateEntries();
                 }}
                 location={addEntryLocation}
               />

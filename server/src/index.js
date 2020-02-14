@@ -10,7 +10,9 @@ const middlewares = require('./middlewares');
 const logs = require('./api/logs');
 
 const app = express();
-app.use(cors());
+
+app.enable('trust proxy');
+
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
@@ -30,6 +32,7 @@ connectDB();
 
 app.use(morgan('common'));
 app.use(helmet());
+app.use(cors());
 
 app.use(express.json());
 

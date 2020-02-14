@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { createLogEntry } from './API';
+import { createLogEntry } from './API.js';
 
 const LogEntryForm = ({ location, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -25,8 +25,8 @@ const LogEntryForm = ({ location, onClose }) => {
     <form onSubmit={handleSubmit(onSubmit)} class='dark-matter'>
       {error ? <h3 className='error'>{error}</h3> : null}
       <h1>
-        New CoffeeShop Entry
-        <span>Please fill in the following form to add a new coffeeshop.</span>
+        New Coffee Shop Entry
+        <span>Please fill in the following form to add a new coffee shop.</span>
       </h1>
       <label>
         <span>Store Name: </span>

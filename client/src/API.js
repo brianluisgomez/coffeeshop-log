@@ -1,3 +1,8 @@
+// const API_URL =
+//   window.location.hostname === 'localhost'
+//     ? 'http://localhost:1337'
+//     : 'http://coffeeshop-log-db.now.sh';
+
 const API_URL = 'https://coffeeshop-log-db.now.sh';
 
 export async function listLogEntries() {
@@ -15,3 +20,5 @@ export async function createLogEntry(entry) {
   });
   return response.json();
 }
+
+export default listLogEntries;
